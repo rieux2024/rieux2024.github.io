@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario Registro</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+</head>
+<body>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                <form>
+                    <div class="form-group">
+                      <label for="txtCodigo">Codigo</label>
+                      <input type="text" class="form-control" id="txtCodigo">
+                    </div>
+                    <div class="form-group">
+                        <label for="txtTitulo">nombre</label>
+                        <input type="text" class="form-control" id="txtTitulo" >
+                    </div>
+                    <div class="form-group">
+                        <label for="txtVistas">apellido</label>
+                        <input type="text" class="form-control" id="txtVistas">
+                    </div>
+                    <div class="form-group">
+                        <label for="txtdocumento">documento</label>
+                        <input type="text" class="form-control" id="txtdocumento">
+                    </div>
+                    <button type="button" class="btn btn-primary" onclick="guardar();">Guardar</button>
+                    <button type="button" class="btn btn-warning" onclick="cancelar();">Cancelar</button>
+                  </form>
+            </div>
+            <div class="col-md-9">
+                <table class="table">
+                    <thead class="thead-dark">
+                      <tr>
+                        <th scope="col">codigo</th>
+                        <th scope="col">nombre</th>
+                        <th scope="col">apellido</th>
+                        <th scope="col">documento</th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                      </tr>
+                    </thead>
+                    <tbody id="datos_body">
+                    </tbody>
+                  </table>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+
+<script>
+    fetch("http://localhost:3000/persona")
+        .then(response => response.text())
+        .then(data=>{
+            let respuesta = JSON.parse(data);
+            mostrarDatos(respuesta);
+        });
+
+        function mostrarDatos(respuesta){
+            let cuerpo = document.getElementById("datos_body");
+            let registros = "";
+            for(let i=0; i<respuesta.length; i++){
+                registros += `<tr>
+                <td>${respuesta[i].id}</td>
+                <td>${respuesta[i].nombre}</td>
+                <td>${respuesta[i].apellido}</td>
+                <td>${respuesta[i].documento}</td>
+                <td>
+                    <button type='button' class='btn btn-warning' onclick='editar(${i})'>Editar</button>
+                </td>
+                <td>
+                    <button type='button' class='btn btn-danger' onclick='eliminar(${i})'>Eliminar</button>
+                </td>
+                </tr>  `;
+            }
+            cuerpo.innerHTML = registros;
+        
+        }
+
+        function eliminar(posicion){
+
+            let codigo = document.getElementById("datos_body").rows[posicion].cells[0].innerHTML;
+            let opciones ={
+            method : "DELETE"
+            }  
+            fetch("http://localhost:3000/persona/"+codigo,opciones)
+        .then(response => response.text())
+        .then(data=>{
+            let respuesta = JSON.parse(data);
+            console.log(respuesta);
+        });
+        location. reload();
+        }
+        function editar(posicion){
+            let codigo = document.getElementById("datos_body").rows[posicion].cells[0].innerHTML;
+            let nombre = document.getElementById("datos_body").rows[posicion].cells[1].innerHTML;
+            let vista = document.getElementById("datos_body").rows[posicion].cells[2].innerHTML;
+            let documento = document.getElementById("datos_body").rows[posicion].cells[3].innerHTML;
+
+            alert("codigo: "+ codigo + "  nombre: "+ nombre+" vista: "+vista);
+            document.getElementById("txtCodigo").value=codigo;
+            document.getElementById("txtTitulo").value=nombre;
+            document.getElementById("txtVistas").value=vista;
+            document.getElementById("txtdocumento").value=documento;
+        }
+
+        function cancelar(){
+        document.getElementById("txtCodigo").value="";
+        document.getElementById("txtTitulo").value="";
+        document.getElementById("txtVistas").value="";
+        document.getElementById("txtdocumento").value="";
+
+        }
+
+        function guardar(){
+         let codigo=   document.getElementById("txtCodigo").value;
+        let nombre =document.getElementById("txtTitulo").value;
+        let vistas =document.getElementById("txtVistas").value;
+        let documento =document.getElementById("txtdocumento").value;
+
+
+        alert("codigo: "+ codigo + "  nombre: "+ nombre+" vista: "+vistas + "documento: " +documento);
+
+        let opciones ={
+            method : "POST",
+            body : JSON.stringify({
+                "id": codigo,
+                "nombre" : nombre,
+                "apellido" : vistas,
+                "documento": documento
+            })
+        }
+        fetch("http://localhost:3000/persona", opciones)
+        .then(response => response.text())
+        .then(data=>{
+            let respuesta = JSON.parse(data);
+            console.log(respuesta);
+        });
+
+        location. reload();
+        }
+
+</script>
+
+</html>

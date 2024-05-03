@@ -1,0 +1,77 @@
+{
+  "posts": [
+    {
+      "id": "1",
+      "title": "a title",
+      "views": 100
+    },
+    {
+      "id": "2",
+      "title": "another title",
+      "views": 200
+    },
+    {
+      "id": "3",
+      "title": "a title",
+      "views": 100
+    },
+    {
+      "id": "6",
+      "title": "yy",
+      "views": "rr"
+    }
+  ],
+  "comments": [
+    {
+      "id": "1",
+      "text": "a comment about post 1",
+      "postId": "1"
+    },
+    {
+      "id": "2",
+      "text": "another comment about post 1",
+      "postId": "1"
+    }
+  ],
+  "profile": {
+    "name": "typicode"
+  },
+  "persona": [
+    {
+      "id": "1",
+      "nombre": "Erick",
+      "apellido": "Prey",
+      "documento": "156489"
+    },
+    {
+      "id": "2",
+      "nombre": "Juan",
+      "apellido": "Perez",
+      "documento": "048999"
+    },
+    {
+      "id": "3",
+      "nombre": "Alejandro",
+      "apellido": "Cuiyama",
+      "documento": "464654"
+    },
+    {
+      "id": "4",
+      "nombre": "berta",
+      "apellido": "chavez",
+      "documento": "796464"
+    },
+    {
+      "id": "5",
+      "nombre": "tito",
+      "apellido": "ura",
+      "documento": "796464"
+    },
+    {
+      "id": "6",
+      "nombre": "ediberto",
+      "apellido": "benites",
+      "documento": "961652"
+    }
+  ]
+}
